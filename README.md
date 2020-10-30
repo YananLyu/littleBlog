@@ -1,4 +1,4 @@
-##Tehcnical skills included
+## Tehcnical skills included
 
 * Node.js
 * ejs MongoDB
