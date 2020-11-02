@@ -69,42 +69,27 @@ app.post("/compose", function (req, res) {
   blog.save(function (err) {
     if (err) return handleError(err);
     console.log("new blog is saved");
+    res.redirect("/");
   });
-
-  res.redirect("/");
 });
 
-app.get("/posts/:postName", function (req, res) {
-  const reqTitle = _.lowerCase(req.params.postName);
-
-  Blog.find(function (err, posts) {
+app.get("/posts/:postId", function (req, res) {
+  // const reqId = _.lowerCase(req.params.postId);
+  const reqId = req.params.postId;
+console.log(reqId);
+  Blog.findOne({ _id: reqId }, function (err, post) {
+    console.log(post);
     if (err) {
       console.log(err);
     } else {
-      posts.forEach(function (post) {
-        const storedTitle = _.lowerCase(post.title);
-        console.log(storedTitle, reqTitle);
-        if (storedTitle === reqTitle) {
-          console.log("Match Found!");
-          res.render("post",
-            {
-              title: post.title,
-              content: post.content
-            });
-        } else {
-          console.log("Not a Match!");
-        }
-      });
+      res.render("post",
+        {
+          title: post.title,
+          content: post.content
+        });
     }
   });
-
-
-})
-
-
-
-
-
+});
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
